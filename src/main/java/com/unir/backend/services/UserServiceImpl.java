@@ -1,6 +1,7 @@
 package com.unir.backend.services;
 
 import com.unir.backend.entities.UserEntity;
+import com.unir.backend.exception.EmailException;
 import com.unir.backend.models.Dto.UserDto;
 import com.unir.backend.repositories.UserRepository;
 import org.springframework.beans.BeanUtils;
@@ -26,7 +27,7 @@ public class UserServiceImpl implements UserService {
     public UserDto createUser(UserDto userDto) {
 
         if(userRepository.findByEmail(userDto.getEmail()) != null)
-            throw new RuntimeException("Correo ya existente");
+            throw new EmailException("Este correo ya existe");
 
         UserEntity userEntity = new UserEntity();
         BeanUtils.copyProperties(userDto, userEntity);
@@ -46,6 +47,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserEntity> getAll() {
         return userRepository.findAll();
+    }
+
+    /**
+     * @param email
+     * @return
+     */
+    @Override
+    public UserDto getUser(String email) {
+        UserEntity userEntity =  userRepository.findByEmail(email);
+        if(userEntity == null){
+            throw new UsernameNotFoundException(email);
+        }
+        UserDto userDto = new UserDto();
+        BeanUtils.copyProperties(userEntity, userDto);
+        return userDto;
     }
 
     /**

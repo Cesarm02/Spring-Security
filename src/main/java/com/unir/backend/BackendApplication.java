@@ -1,5 +1,6 @@
 package com.unir.backend;
 
+import com.unir.backend.security.AppProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -16,4 +17,15 @@ public class BackendApplication {
 	public BCryptPasswordEncoder bCryptPasswordEncoder(){
 		return new BCryptPasswordEncoder();
 	}
+
+	@Bean
+	public SpringAplicationContext springAplicationContext(){
+		return new SpringAplicationContext();
+	}
+
+	@Bean(name = "AppProperties")
+	public AppProperties appProperties(){
+		return new AppProperties();
+	}
+
 }

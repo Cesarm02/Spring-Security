@@ -10,5 +10,6 @@ public interface UserService extends UserDetailsService {
 
     public UserDto createUser(UserDto userDto);
     public List<UserEntity> getAll();
+    public UserDto getUser(String email);
 
 }

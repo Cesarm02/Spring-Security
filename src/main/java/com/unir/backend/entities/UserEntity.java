@@ -5,10 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity(name = "Users")  //Keyword en H2 de User
@@ -16,6 +13,7 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(indexes = { @Index(columnList = "userId", name = "index_userId", unique = true),@Index(columnList = "email", name = "index_email", unique = true)} )
 
 public class UserEntity implements Serializable {
 

@@ -8,6 +8,9 @@ import com.unir.backend.repositories.UserRepository;
 import com.unir.backend.services.UserServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,8 +25,14 @@ public class UserController {
     private UserRepository userRepository;
 
     @GetMapping
-    public String getUser(){
-        return "get Users details";
+    public UserRest getUser(){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getPrincipal().toString();
+        UserDto userDto =  userService.getUser(email);
+        UserRest userRest = new UserRest();
+        BeanUtils.copyProperties(userDto, userRest);
+        return userRest;
     }
 
     @PostMapping
